@@ -80,11 +80,11 @@ public class CartService implements CartImp {
 
         // cartSn, odQty, mbNo 추가
         // concatMap 리펙토링 필요 부분
-       return cartPrdInfo.zipWith(cart, (cartPrd, cartProduct) -> {
+        return cartPrdInfo.zipWith(cart, (cartPrd, cartProduct) -> {
             cartPrd.setCartSn(cartProduct.getCartSn());
             cartPrd.setOdQty(cartProduct.getOdQty());
             cartPrd.setMbNo(cartProduct.getMbNo());
-            cartPrd.setRegDttm(cartProduct.getRegDttm()) ;
+            cartPrd.setRegDttm(cartProduct.getRegDttm());
 
             return cartPrd;
         }).log();
@@ -96,6 +96,7 @@ public class CartService implements CartImp {
         //
         return cartRepository.save(cart);
     }
+
     //  장바구니 삭제
     @Override
     public Flux<Cart> remove(String spdNo) {

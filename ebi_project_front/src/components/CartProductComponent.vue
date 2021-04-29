@@ -23,8 +23,8 @@
       <!-- plus, mius 관련 버튼 -->
       <button id="minusBtn" class="minus" @click="minOdQty" /> 
       <div class="number">
-        <input type="number"  id="number_00" :value="cartLists.odQty"  >
-        <label for="number_00" class="blind"></label>
+        <input type="number"  id="numberV" :value="cartLists.odQty"  >
+        <label for="numberV" class="blind"></label>
       </div>
       <button class="plus" @click="pluOdQty"/>
     </div>
@@ -53,13 +53,12 @@ export default {
       cartLists : new CartListInfoDto()
     },
     created(){
-        this.totalPrice = this.cartLists.odQty*this.cartLists.slPrc
+      this.totalPrice = this.cartLists.odQty*this.cartLists.slPrc
+      
     },
     data: function(){
         return {
           totalPrice: 0,
-          perPrice : []
-
         }
     },
     methods:{
@@ -69,7 +68,9 @@ export default {
         let target = document.getElementById('minusBtn');
         this.cartLists.odQty++; 
         this.totalPrice += price;
+        EventBus.$emit("groupPluTotal", price);
         this.debounceCart();
+
         if(this.cartLists.odQty > 1){
           target.disabled = false;
         }
@@ -79,15 +80,15 @@ export default {
          let target = document.getElementById('minusBtn');
          this.cartLists.odQty--;
          this.totalPrice -= price;
+         EventBus.$emit("groupMiuTotal", price);
           this.debounceCart();
-         if(this.cartLists.odQty == 1){
+         if(this.cartLists.odQty == 1 ){
           alert("❌1개이상 수량을 선택하세요")
           target.disabled = true;
          }
       },
       // 각 카트등록 상품 삭제 기능
     deleteCart: function(cartLists){
-      //
       let spdNo = cartLists.spdNo
       console.log(spdNo)
         CartApi.remove(spdNo).then(r => console.log("cartProductComponent",r))
@@ -98,17 +99,7 @@ export default {
   debounceCart: debounce.debounce(function(){
       EventBus.$emit('modifyCart', this.cartLists);
     }, 500),
-    cartPriceInfo: function(totalPrice) {
-
-
-        console.log("tototototot", totalPrice)
-     
-      
-
-      EventBus.$emit('cartPriceInfo', )
     }
-    }
-    
 }
 </script>
 

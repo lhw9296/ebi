@@ -13,62 +13,36 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-    @RequestMapping("/cart")
-    public class CartController {
+@RequestMapping("/cart")
+public class CartController {
 
-        private final CartService cartService;
+    private final CartService cartService;
 
-        //front 카트 등록 작업 관련
-        @PostMapping("/register")
-        public Mono<Cart> register(@RequestBody CartDto cart){
-            //
-            Cart result = cart.toCart();
-            return cartService.register(result);
-        }
+    //front 카트 등록 작업 관련
+    @PostMapping("/register")
+    public Mono<Cart> register(@RequestBody CartDto cart) {
+        //
+        Cart result = cart.toCart();
+        return cartService.register(result);
+    }
 
-        @PostMapping("/retrieveByCartList")
-        public Flux<CartPrdInfoDto> retrieveByCartList(){
-            //
-            return cartService.retrieveByCartList();
-        }
+    @PostMapping("/retrieveByCartList")
+    public Flux<CartPrdInfoDto> retrieveByCartList() {
+        //
+        return cartService.retrieveByCartList();
+    }
 
-        @PutMapping("/modifyCart")
-        public Mono<Cart> modifyOdQty(@RequestBody Cart cart){
-            //
-            return cartService.modifyCart(cart);
-        }
+    @PutMapping("/modifyCart")
+    public Mono<Cart> modifyOdQty(@RequestBody Cart cart) {
+        //
+        return cartService.modifyCart(cart);
+    }
 
-        @GetMapping("/removeCart")
-        public Flux<Cart> removeCart(@RequestParam String spdNo){
-                //
-            return cartService.remove(spdNo);
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @GetMapping("/removeCart")
+    public Flux<Cart> removeCart(@RequestParam String spdNo) {
+        //
+        return cartService.remove(spdNo);
+    }
 
 
 //    // 장바구니 정보 조회 test

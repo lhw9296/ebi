@@ -12,7 +12,7 @@
                       상품금액
                   </dt>
                   <dd>
-                        120,900
+                       {{this.totalPrice}}
                     <span>원</span>
                   </dd>
                   </dl>
@@ -33,16 +33,16 @@
                 <div class="totalPrice">
                   <dt>
                     총
-                    <span class="colorPrimary">2</span>
+                    <span class="colorPrimary">0</span>
                     건
                   </dt>
                   <dd class="price">
-                    <strong class="price colorPrimary">100,000</strong>
+                    <strong class="price colorPrimary">{{this.totalPrice}}</strong>
                     <span class="won colorPrimary">원</span>
                   </dd>
                 </div>
                 <ul class="cartBtnSet">
-                  <li class="topOrderBtn">
+                  <li class="topOrderBtn" @click="topOrderBtn">
                     <a type="button" class="btnOrder">주문하기</a>
                   </li>
                 </ul>
@@ -53,13 +53,49 @@
 </template>
  
 <script>
+import EventBus from '../utils/EventBus'
+import {CartApi} from '../api'
 
 export default {
     name: "cartPrice",
     data: function(){
         return {
-          
+          //합계
+          priceArr: [],
+          totalPrice: 0,
         }
+    },
+    created() {
+      EventBus.$on("groupPluTotal", this.groupPluTotal)
+      EventBus.$on("groupMiuTotal", this.groupMiuTotal)
+      this.retrieveByCartList()
+    },
+    methods:{
+      
+      retrieveByCartList: async function(){
+        
+        await CartApi.retrieveByCartList().then(r => {
+          this.priceArr = r.data;
+
+          this.priceArr.forEach(result => {
+            this.totalPrice += result.slPrc*result.odQty
+            
+          });
+          console.log("price", this.priceArr)
+        });
+      },
+      groupPluTotal(totalPrice){
+        this.totalPrice += totalPrice 
+        
+      },
+      
+       groupMiuTotal(totalPrice){
+        this.totalPrice -= totalPrice 
+      },
+      topOrderBtn: function(){
+        alert("😊주문이 완료되었습니다.")
+      }
+
     }
     
 

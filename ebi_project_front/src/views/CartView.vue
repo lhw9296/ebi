@@ -46,7 +46,6 @@ export default {
       this.retrieveByCartList();
 
       EventBus.$on('modifyCart', this.modifyCart);
-      EventBus.$on('cartPriceInfo', this.cartPriceInfo);
     },
     methods: {
       retrieveByCartList: async function(){
@@ -73,10 +72,8 @@ export default {
       // eventBus 를 통한 통신
       modifyCart: function(cartLists){
       CartApi.modify(cartLists)
-      },
-      cartPriceInfo: function(){
-       
       }
+       
   }
 }
 </script>
